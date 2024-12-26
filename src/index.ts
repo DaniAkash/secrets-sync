@@ -1,3 +1,4 @@
+#! /usr/bin/env node
 import { join } from "node:path";
 import { getSignedUrl } from "./utils/getSignedUrl";
 import { uploadFileToS3 } from "./utils/uploadFileToS3";

@@ -1,11 +1,15 @@
 {
 	"name": "secrets-sync",
-	"module": "src/index.ts",
+	"module": "dist/index.js",
 	"type": "module",
 	"scripts": {
-		"dev": "bun run --watch src/index.ts",
+		"dev": "bun run build --watch",
+		"build": "bun build ./src/index.ts --outdir ./dist --target node",
 		"lint:fix": "bunx biome check --write .",
 		"lint": "bunx biome check ."
+	},
+	"bin": {
+		"secrets-sync": "dist/index.ts"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
