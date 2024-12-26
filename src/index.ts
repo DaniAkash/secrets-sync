@@ -1,22 +1,16 @@
-import { S3Client, ListObjectsCommand } from "@aws-sdk/client-s3";
-import { env } from "./utils/env";
+import { join } from "node:path";
+import { getSignedUrl } from "./utils/getSignedUrl";
+import { uploadFileToS3 } from "./utils/uploadFileToS3";
 
-const s3Client = new S3Client({
-    region: env.S3_REGION,
-    credentials: {
-        accessKeyId: env.S3_ACCESS_KEY_ID,
-        secretAccessKey: env.S3_SECRET_ACCESS_KEY
-    },
-    endpoint: env.S3_ENDPOINT,
-});
+const fileName = ".env.enc";
 
-const command = new ListObjectsCommand({
-    Bucket: 'secrets-sync'
-});
+const signedUrl = await getSignedUrl(fileName);
+
+const filePath = join(process.cwd(), fileName);
 
 try {
-    const response = await s3Client.send(command);
-    console.log(response);
+	await uploadFileToS3(signedUrl, filePath);
 } catch (error) {
-    console.error(error);
+	// biome-ignore lint/suspicious/noConsole: <explanation>
+	console.error("failed", error);
 }

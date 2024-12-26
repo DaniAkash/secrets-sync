@@ -1,9 +1,9 @@
-import { describe, expect, it } from "vitest";
-import { join } from "node:path";
-import { tmpdir } from "node:os";
-import { encrypt } from "./encrypt";
 import { readFileSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { describe, expect, it } from "vitest";
 import { decrypt } from "./decrypt";
+import { encrypt } from "./encrypt";
 
 describe("decrypt unit tests", () => {
 	it("should decrypt the provided file", async () => {

@@ -1,20 +1,24 @@
 {
-  "name": "secrets-sync",
-  "module": "src/index.ts",
-  "type": "module",
-  "scripts": {
-    "dev": "bun run --watch src/index.ts"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "@types/bun": "latest",
-    "vitest": "^2.1.8"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
-  "dependencies": {
-    "@aws-sdk/client-s3": "^3.717.0",
-    "valibot": "^1.0.0-beta.9"
-  }
+	"name": "secrets-sync",
+	"module": "src/index.ts",
+	"type": "module",
+	"scripts": {
+		"dev": "bun run --watch src/index.ts",
+		"lint:fix": "bunx biome check --write .",
+		"lint": "bunx biome check ."
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@types/bun": "latest",
+		"dotenv": "^16.4.7",
+		"vitest": "^2.1.8"
+	},
+	"peerDependencies": {
+		"typescript": "^5.0.0"
+	},
+	"dependencies": {
+		"aws4fetch": "^1.0.20",
+		"node-fetch": "^3.3.2",
+		"valibot": "^1.0.0-beta.9"
+	}
 }

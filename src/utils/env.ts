@@ -3,9 +3,8 @@ import { ValiError, object, parse, string } from "valibot";
 const EnvSchema = object({
 	S3_ACCESS_KEY_ID: string(),
 	S3_SECRET_ACCESS_KEY: string(),
-	S3_ENDPOINT: string(),
-	S3_REGION: string(),
-	SALT_LENGTH: string(),
+	S3_ACCOUNT_ID: string(),
+	S3_BUCKET_NAME: string(),
 });
 
 try {

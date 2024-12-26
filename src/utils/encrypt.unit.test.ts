@@ -1,7 +1,7 @@
-import { describe, expect, test } from "vitest";
+import { readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { readFileSync, writeFileSync } from "node:fs";
+import { describe, expect, test } from "vitest";
 import { encrypt } from "./encrypt";
 
 describe("encrypt unit tests", () => {
@@ -14,7 +14,6 @@ describe("encrypt unit tests", () => {
 		writeFileSync(path, fileContent);
 		await encrypt(path, outputPath, password);
 		const encryptedContent = readFileSync(outputPath, "utf8");
-		console.log(encryptedContent);
 		expect(encryptedContent).toBeTruthy();
 		expect(encryptedContent).not.includes(fileContent);
 	});
