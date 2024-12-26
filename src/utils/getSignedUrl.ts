@@ -1,17 +1,27 @@
 import { AwsClient } from "aws4fetch";
-import { env } from "./env";
 
-export const getSignedUrl = async (fileName: string) => {
+interface S3Config {
+	accessKeyId: string;
+	secretAccessKey: string;
+	bucketName: string;
+	endpoint: string;
+	accountId?: string;
+}
+
+export const getSignedUrl = async (
+	fileName: string,
+	{ accessKeyId, secretAccessKey, bucketName, endpoint, accountId }: S3Config,
+) => {
 	const r2 = new AwsClient({
-		accessKeyId: env.S3_ACCESS_KEY_ID,
-		secretAccessKey: env.S3_SECRET_ACCESS_KEY,
+		accessKeyId,
+		secretAccessKey,
 	});
-	const bucketName = env.S3_BUCKET_NAME;
-	const accountId = env.S3_ACCOUNT_ID;
 
-	const url = new URL(
-		`https://${bucketName}.${accountId}.r2.cloudflarestorage.com`,
-	);
+	const baseUrl = accountId
+		? `https://${bucketName}.${accountId}.${endpoint}`
+		: `https://${bucketName}.${endpoint}`;
+
+	const url = new URL(baseUrl);
 
 	url.pathname = `/${fileName}`;
 
