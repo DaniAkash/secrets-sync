@@ -1,6 +1,7 @@
 import { createCipheriv, randomBytes } from "node:crypto";
 import { createReadStream, createWriteStream } from "node:fs";
 import { getKeyAndIV } from "./getKeyAndIV";
+import { success } from "./messages";
 
 export const encrypt = async (
 	path: string,
@@ -23,8 +24,7 @@ export const encrypt = async (
 				const authTag = cipher.getAuthTag();
 				const tagOutput = createWriteStream(outputPath, { flags: "a" });
 				tagOutput.write(authTag, () => {
-					// biome-ignore lint/suspicious/noConsole: <explanation>
-					console.log(`File encrypted successfully: ${outputPath}`);
+					success(`File encrypted successfully: ${outputPath}`);
 					resolve();
 				});
 				tagOutput.on("error", reject);

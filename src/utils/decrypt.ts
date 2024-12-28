@@ -1,6 +1,7 @@
 import { createDecipheriv } from "node:crypto";
 import { promises as fs, createReadStream, createWriteStream } from "node:fs";
 import { getKeyAndIV } from "./getKeyAndIV";
+import { success } from "./messages";
 
 const TAG_LENGTH = 16;
 const SALT_LENGTH = 16;
@@ -43,8 +44,7 @@ export const decrypt = async (
 		const output = createWriteStream(outputPath);
 		input.pipe(decipher).pipe(output);
 		output.on("finish", () => {
-			// biome-ignore lint/suspicious/noConsole: <explanation>
-			console.log(`File decrypted successfully: ${outputPath}`);
+			success(`File decrypted successfully: ${outputPath}`);
 			resolve();
 		});
 		input.on("error", reject);

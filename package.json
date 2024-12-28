@@ -1,7 +1,9 @@
 {
 	"name": "secrets-sync",
+	"description": "Sync Secrets, dotfiles and config files to S3 with full E2E encryption",
 	"module": "dist/index.js",
 	"type": "module",
+	"version": "0.0.1",
 	"scripts": {
 		"dev": "bun run build --watch",
 		"build": "bun build ./src/index.ts --outdir ./dist --target node",
@@ -9,7 +11,7 @@
 		"lint": "bunx biome check ."
 	},
 	"bin": {
-		"secrets-sync": "dist/index.ts"
+		"secrets-sync": "dist/index.js"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
@@ -21,7 +23,12 @@
 		"typescript": "^5.0.0"
 	},
 	"dependencies": {
+		"@inquirer/prompts": "^7.2.1",
 		"aws4fetch": "^1.0.20",
+		"chalk": "^5.4.1",
+		"check-password-strength": "^2.0.10",
+		"commander": "^12.1.0",
+		"env-paths": "^3.0.0",
 		"node-fetch": "^3.3.2",
 		"valibot": "^1.0.0-beta.9"
 	}
