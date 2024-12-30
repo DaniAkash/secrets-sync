@@ -1,5 +1,5 @@
-import { readFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
+import { readFile } from "node:fs/promises";
 import { safeParse } from "valibot";
 import { type AWSConfigSchema, configSchema } from "../init/configSchema";
 import { configPath } from "./configPath";

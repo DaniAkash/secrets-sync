@@ -27,12 +27,7 @@ export const getFileModifiedTime = async (
 			const lastModifiedTime = response.headers.get("last-modified");
 			if (lastModifiedTime) return new Date(lastModifiedTime);
 		}
-		error(
-			`Failed to access bucket "${config.s3BucketName}":\n`,
-			response.status,
-			response.statusText,
-			`\nCheck your configuration or file an issue on GitHub - ${packageJSON.bugs.url}`,
-		);
+		return false;
 	} catch (e) {
 		error("Error validating bucket:", e);
 		error(
