@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { getSignedUrl } from "./getSignedUrl";
 import { env } from "./env";
+import { getSignedUrl } from "./getSignedUrl";
 
 describe("getSignedUrl unit tests", () => {
 	it("returns a signed url", async () => {

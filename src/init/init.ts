@@ -1,19 +1,12 @@
-import { password, input, confirm } from "@inquirer/prompts";
-import { passwordStrength, type DiversityType } from "check-password-strength";
-import { paths } from "../utils/paths";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { object, optional, safeParse, string, type InferInput } from "valibot";
-import { error, success, alert } from "../utils/messages";
-
-const configSchema = object({
-	encryptionKey: string(),
-	s3AccessKeyId: string(),
-	s3SecretAccessKey: string(),
-	s3AccountId: optional(string()),
-	s3BucketName: string(),
-	s3Endpoint: string(),
-});
+import { confirm, input, password } from "@inquirer/prompts";
+import { type DiversityType, passwordStrength } from "check-password-strength";
+import { type InferInput, safeParse } from "valibot";
+import { alert, error, success } from "../utils/messages";
+import { paths } from "../utils/paths";
+import { configSchema } from "./configSchema";
+import { validateConfig } from "./validateConfig";
 
 const configFileName = "meta.json";
 const configPath = join(paths.config, configFileName);
@@ -22,9 +15,12 @@ export const init = async () => {
 	const confirmation = await getConfirmation();
 	if (!confirmation) return;
 	const newConfig = await getConfig();
-	mkdirSync(paths.config, { recursive: true });
-	writeFileSync(configPath, JSON.stringify(newConfig, null, 2));
-	success("Configuration saved successfully.", configPath);
+	const isValid = await validateConfig(newConfig);
+	if (isValid) {
+		mkdirSync(paths.config, { recursive: true });
+		writeFileSync(configPath, JSON.stringify(newConfig, null, 2));
+		success("Configuration saved successfully.", configPath);
+	}
 };
 
 const getConfirmation = async (): Promise<boolean> => {
