@@ -1,4 +1,5 @@
 import { AwsClient } from "aws4fetch";
+import { constructBaseUrl } from "./constructBaseUrl";
 
 interface S3Config {
 	accessKeyId: string;
@@ -17,9 +18,11 @@ export const getSignedUrl = async (
 		secretAccessKey,
 	});
 
-	const baseUrl = accountId
-		? `https://${bucketName}.${accountId}.${endpoint}`
-		: `https://${bucketName}.${endpoint}`;
+	const baseUrl = constructBaseUrl({
+		s3BucketName: bucketName,
+		s3Endpoint: endpoint,
+		s3AccountId: accountId,
+	});
 
 	const url = new URL(baseUrl);
 

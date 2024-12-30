@@ -1,15 +1,12 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { mkdir, writeFile } from "node:fs/promises";
 import { confirm, input, password } from "@inquirer/prompts";
 import { type DiversityType, passwordStrength } from "check-password-strength";
-import { type InferInput, safeParse } from "valibot";
-import { alert, error, success } from "../utils/messages";
+import { configPath } from "../utils/configPath";
+import { alert, success } from "../utils/messages";
 import { paths } from "../utils/paths";
-import { configSchema } from "./configSchema";
+import { readConfig } from "../utils/readConfig";
+import type { AWSConfigSchema } from "./configSchema";
 import { validateConfig } from "./validateConfig";
-
-const configFileName = "meta.json";
-const configPath = join(paths.config, configFileName);
 
 export const init = async () => {
 	const confirmation = await getConfirmation();
@@ -17,36 +14,30 @@ export const init = async () => {
 	const newConfig = await getConfig();
 	const isValid = await validateConfig(newConfig);
 	if (isValid) {
-		mkdirSync(paths.config, { recursive: true });
-		writeFileSync(configPath, JSON.stringify(newConfig, null, 2));
+		await mkdir(paths.config, { recursive: true });
+		await writeFile(configPath, JSON.stringify(newConfig, null, 2));
 		success("Configuration saved successfully.", configPath);
 	}
 };
 
 const getConfirmation = async (): Promise<boolean> => {
-	if (existsSync(configPath)) {
-		const content = readFileSync(configPath, "utf-8");
-		try {
-			const parsed = JSON.parse(content);
-			const result = safeParse(configSchema, parsed);
-			if (result.success) {
-				const confirmation = await confirm({
-					message: "Configuration already exists. Do you want to reinitialize?",
-				});
-				if (!confirmation) {
-					alert("Configuration already exists. Exiting...");
-					return false;
-				}
-			}
-			alert("Reinitializing configuration, old config will be overwritten.");
-		} catch {
-			error("Invalid config file, reinitializing...");
+	try {
+		await readConfig();
+		const confirmation = await confirm({
+			message: "Configuration already exists. Do you want to reinitialize?",
+		});
+		if (!confirmation) {
+			alert("Configuration already exists. Exiting...");
+			return false;
 		}
+		alert("Reinitializing configuration, old config will be overwritten.");
+	} catch {
+		throw new Error("Invalid config file, reinitializing...");
 	}
 	return true;
 };
 
-const getConfig = async (): Promise<InferInput<typeof configSchema>> => {
+const getConfig = async (): Promise<AWSConfigSchema> => {
 	const encryptionKey = await password({
 		message: "Enter an encryption key:",
 		validate: (value) => {

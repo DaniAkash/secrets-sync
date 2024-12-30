@@ -1,5 +1,6 @@
 import { createDecipheriv } from "node:crypto";
-import { promises as fs, createReadStream, createWriteStream } from "node:fs";
+import { createReadStream, createWriteStream } from "node:fs";
+import { open } from "node:fs/promises";
 import { getKeyAndIV } from "./getKeyAndIV";
 import { success } from "./messages";
 
@@ -11,7 +12,7 @@ export const decrypt = async (
 	outputPath: string,
 	password: string,
 ) => {
-	const inputHandle = await fs.open(path, "r");
+	const inputHandle = await open(path, "r");
 
 	const { size } = await inputHandle.stat();
 

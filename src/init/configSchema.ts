@@ -1,4 +1,4 @@
-import { object, optional, string } from "valibot";
+import { type InferInput, object, optional, string } from "valibot";
 
 export const configSchema = object({
 	encryptionKey: string(),
@@ -8,3 +8,5 @@ export const configSchema = object({
 	s3BucketName: string(),
 	s3Endpoint: string(),
 });
+
+export type AWSConfigSchema = InferInput<typeof configSchema>;
