@@ -10,9 +10,12 @@
 		"lint:fix": "bunx biome check --write .",
 		"lint": "bunx biome check ."
 	},
+	"files": ["src/", "dist/", "README.md"],
+	"keywords": ["secrets", "sync", "dotfiles", "config", ".env", "encryption"],
 	"bin": {
 		"secrets-sync": "dist/index.js"
 	},
+	"author": "DaniAkash",
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
 		"@types/bun": "latest",
