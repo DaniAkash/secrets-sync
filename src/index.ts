@@ -54,7 +54,7 @@ program
 			fileName,
 			overwrite: options.overwrite,
 			path: options.path,
-		});
+		}).catch(error);
 	});
 
 program.parse();
