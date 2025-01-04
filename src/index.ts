@@ -2,9 +2,9 @@
 import { program } from "commander";
 import packageJSON from "../package.json";
 import { init } from "./init/init";
+import { pull } from "./pull/pull";
 import { push } from "./push/push";
 import { error } from "./utils/messages";
-import { pull } from "./pull/pull";
 
 program
 	.name(packageJSON.name)

@@ -1,15 +1,15 @@
+import type { Stats } from "node:fs";
 import { stat } from "node:fs/promises";
 import { join } from "node:path";
 import { cwd } from "node:process";
 import { confirm, input } from "@inquirer/prompts";
-import { alert } from "../utils/messages";
-import type { Stats } from "node:fs";
-import { getDefaultFileName } from "../utils/getDefaultFileName";
-import { getFileModifiedTime } from "../push/getFileModifiedTime";
-import { readConfig } from "../utils/readConfig";
 import chalk from "chalk";
-import { downloadFileFromS3 } from "../utils/downloadFileFromS3";
+import { getFileModifiedTime } from "../push/getFileModifiedTime";
 import { decrypt } from "../utils/decrypt";
+import { downloadFileFromS3 } from "../utils/downloadFileFromS3";
+import { getDefaultFileName } from "../utils/getDefaultFileName";
+import { alert } from "../utils/messages";
+import { readConfig } from "../utils/readConfig";
 
 interface PullArgs {
 	fileName: string;

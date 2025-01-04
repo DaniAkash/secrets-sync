@@ -1,9 +1,9 @@
-import { AwsClient } from "aws4fetch";
-import { constructBaseUrl } from "./constructBaseUrl";
+import { createWriteStream } from "node:fs";
 import { tmpdir } from "node:os";
 import { basename, join } from "node:path";
-import { createWriteStream } from "node:fs";
 import { Readable } from "node:stream";
+import { AwsClient } from "aws4fetch";
+import { constructBaseUrl } from "./constructBaseUrl";
 import { error } from "./messages";
 
 interface S3Config {
