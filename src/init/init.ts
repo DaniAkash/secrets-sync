@@ -2,7 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { confirm, input, password } from "@inquirer/prompts";
 import { type DiversityType, passwordStrength } from "check-password-strength";
 import { configPath } from "../utils/configPath";
-import { alert, success } from "../utils/messages";
+import { alert, error, success } from "../utils/messages";
 import { paths } from "../utils/paths";
 import { readConfig } from "../utils/readConfig";
 import type { AWSConfigSchema } from "./configSchema";
@@ -32,7 +32,7 @@ const getConfirmation = async (): Promise<boolean> => {
 		}
 		alert("Reinitializing configuration, old config will be overwritten.");
 	} catch {
-		throw new Error("Invalid config file, reinitializing...");
+		error("Invalid config file, reinitializing...");
 	}
 	return true;
 };
