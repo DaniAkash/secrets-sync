@@ -6,7 +6,7 @@
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "bun run build --watch",
-		"build": "bun build ./src/index.ts --outdir ./dist --target node",
+		"build": "bun build ./src/index.ts --outdir ./dist --target=node --minify --sourcemap=linked",
 		"lint:fix": "bunx biome check --write .",
 		"lint": "bunx biome check ."
 	},

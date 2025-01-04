@@ -4,6 +4,7 @@ import packageJSON from "../package.json";
 import { init } from "./init/init";
 import { push } from "./push/push";
 import { error } from "./utils/messages";
+import { pull } from "./pull/pull";
 
 program
 	.name(packageJSON.name)
@@ -37,6 +38,23 @@ program
 			overwrite: options.overwrite,
 			path: options.path,
 		}).catch(error);
+	});
+
+/**
+ * Pull a secret / config file from S3
+ */
+program
+	.command("pull")
+	.argument("<file-name>", "Name of the file to pull from S3.")
+	.option("-o, --overwrite", "Overwrite the file if it already exists.", false)
+	.option("-p, --path <path>", "Path to save the file.")
+	.description("Pull a secret / config file from S3.")
+	.action((fileName, options) => {
+		pull({
+			fileName,
+			overwrite: options.overwrite,
+			path: options.path,
+		});
 	});
 
 program.parse();
